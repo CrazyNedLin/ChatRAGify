@@ -170,7 +170,7 @@ def convert_image_to_markdown(image_path: str) -> str:
         }
     )
 
-    return response["response"]
+    return response.json().get("message", {}).get("content", "")
 
   except Exception as e:
     raise RuntimeError(f"Failed to convert image to markdown: {str(e)}")
