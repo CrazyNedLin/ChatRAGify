@@ -1,7 +1,9 @@
+import base64
 import os
 
 import numpy as np
 import ollama
+import requests
 
 from .models import TransportationData
 
@@ -117,3 +119,58 @@ def parse_and_store_md():
       # Clear existing records before bulk insert
       TransportationData.objects.all().delete()
       TransportationData.objects.bulk_create(data_rows)
+
+
+SYSTEM_PROMPT = """Act as an OCR assistant. Analyze the provided image and:
+1. Please display using markdown
+2. Recognize all visible text in the image as accurately as possible.
+3. Maintain the original structure and formatting of the text.
+4. If any words or phrases are unclear, indicate this with [unclear] in your transcription.
+Provide only the transcription without any additional comments."""
+
+OLLAMA_URL = "https://present-phoenix-upward.ngrok-free.app"
+
+
+def encode_image_to_base64(image_path):
+  """Convert an image file to a base64 encoded string."""
+  with open(image_path, "rb") as image_file:
+    return base64.b64encode(image_file.read()).decode('utf-8')
+
+
+def convert_image_to_markdown(image_path: str) -> str:
+  """
+  Convert image to markdown format using ollama/llama3.2 model.
+
+  Args:
+      image_path (str): Path to the image file
+
+  Returns:
+      str: Markdown content generated from the image
+
+  Raises:
+      FileNotFoundError: If the image file is not found
+      RuntimeError: If markdown conversion fails
+  """
+  if not os.path.exists(image_path):
+    raise FileNotFoundError(f"Image file not found: {image_path}")
+
+  try:
+    base64_image = encode_image_to_base64(image_path)
+    response = requests.post(
+        OLLAMA_URL,  # Ensure this URL matches your Ollama service endpoint
+        json={
+          "model": "llama3.2-vision",
+          "messages": [
+            {
+              "role": "user",
+              "content": SYSTEM_PROMPT,
+              "images": [base64_image],
+            },
+          ],
+        }
+    )
+
+    return response["response"]
+
+  except Exception as e:
+    raise RuntimeError(f"Failed to convert image to markdown: {str(e)}")
