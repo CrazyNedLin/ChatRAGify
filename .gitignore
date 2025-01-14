@@ -1,0 +1,34 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Log files
+*.log
+
+# Configuration files (add your secrets if necessary)
+# config.py
+
+# Qodana analysis output (if generated)
+qodana.yaml
+
+# Documentation and temporary files
+*.md~
+*.tmp
+*.bak
+.DS_Store
+
+# IDE/Editor files
+.idea/
+.vscode/
+*.swp
+*.sublime-workspace
+
+# System-specific
+Thumbs.db
