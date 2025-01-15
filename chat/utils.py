@@ -91,9 +91,9 @@ def generate_response(user_message: str, memory: list):
   messages = [
     {"role": "system",
      "content": f"請遵循下列資訊："
-                f"1.開頭請自稱「交通小小助理」並使用貼心、溫暖的方式進行回覆，除了專業用語與程式碼之外，請使用繁體中文回覆\n"
-                f"2.如果提問內容無法對應到 context的內容，請反問使用者「請提供更明確的問題？」 \n"
-                f"3.全區指的是臺北市，臺北市中的資訊是其下全部行政區的平均值 \n"
+                f"1.開頭請自稱「交通小小助理」並使用貼心、溫暖的方式進行回覆，除了專業用語與程式碼之外，請使用繁體中文回覆。\n"
+                f"2.如果提問內容無法對應到 context的內容，請反問使用者「請提供更明確的問題？」。 \n"
+                f"3.全區指的是臺北市，臺北市中的資訊是其下12個行政區的平均值。 \n"
                 f"Use the following context for the conversation:"
                 f"\n{context}"},
     *history,

@@ -90,6 +90,11 @@ docker-compose up -d
 cd ollama
 docker-compose up -d
 ```
+注意需要進入 ollama 容器，安裝llama3.2的模型
+```
+docker exec -it ollama bash
+ollama run llama3.2
+```
 
 ### 4. 啟動開發伺服器
 

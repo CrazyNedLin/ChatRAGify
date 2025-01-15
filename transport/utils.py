@@ -7,7 +7,6 @@ import requests
 
 from .models import TransportationData
 
-
 def generate_embedding(text: str) -> np.ndarray:
   """
   Generate embedding vectors using ollama/llama3.2 model.
@@ -35,7 +34,6 @@ def generate_embedding(text: str) -> np.ndarray:
 
   except Exception as e:
     raise RuntimeError(f"Failed to generate embedding: {str(e)}")
-
 
 def parse_and_store_md():
   """
@@ -120,7 +118,6 @@ def parse_and_store_md():
       TransportationData.objects.all().delete()
       TransportationData.objects.bulk_create(data_rows)
 
-
 SYSTEM_PROMPT = """Act as an OCR assistant. Analyze the provided image and:
 1. Please display using markdown
 2. Recognize all visible text in the image as accurately as possible.
@@ -130,12 +127,10 @@ Provide only the transcription without any additional comments."""
 
 OLLAMA_URL = "https://present-phoenix-upward.ngrok-free.app"
 
-
 def encode_image_to_base64(image_path):
   """Convert an image file to a base64 encoded string."""
   with open(image_path, "rb") as image_file:
     return base64.b64encode(image_file.read()).decode('utf-8')
-
 
 def convert_image_to_markdown(image_path: str) -> str:
   """
